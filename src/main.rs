@@ -1,26 +1,14 @@
 // created by Abhilekh Gautam jul 22, 2023 22:30
 
 use std::env;
-use std::fs;
 
-// Represents the overall Document
+pub mod document;
+pub mod document_viewer;
 
-pub struct Document<'a> {
-    // oops
-    file_name: &'a str,
-    content: String,
-}
+use document::Document;
+use document_viewer as viewer;
 
-impl<'a> Document<'a> {
-    fn new(file_path: &'a str) -> Self {
-        let contents = fs::read_to_string(file_path).unwrap();
-        Self {
-            // todo: stripe the path to only contain the file name
-            file_name: file_path,
-            content: contents,
-        }
-    }
-}
+use viewer::Viewer;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -38,9 +26,10 @@ fn main() {
     }
 
     // create a new document
-    let _doc = Document::new(file_path);
+    let doc = Document::new(file_path);
 
-    // todo:
     // Create a Document Viewer
-    // let viewer = new Viewer(doc);
+    let viewer = Viewer::new(doc);
+
+    viewer.view();
 }
